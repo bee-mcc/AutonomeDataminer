@@ -9,7 +9,7 @@ class ArchivesSpiderLachlainSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        keywords = gen_keywords()
+        keywords = self.gen_keywords()
         
         for keyword in keywords:
 
@@ -23,7 +23,13 @@ class ArchivesSpiderLachlainSpider(scrapy.Spider):
                 }
 
 
+    #python / OOP question! Should I have defined this within my class, or outside of it in another class/outside of the class
+    #declaration? Does this matter much?
     def gen_keywords():
-        wordArray = []
-        return wordArray
+        with open('keywords.txt', 'r') as keywordsFile:
+            wordArray = []
+            for line in keywordsFile.readlines():
+                wordArray.append(line)
+                
+            return wordArray
 
