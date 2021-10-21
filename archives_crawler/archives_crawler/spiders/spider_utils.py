@@ -4,6 +4,7 @@ def gen_keywords(fileToOpen):
     with open(fileToOpen, 'r') as keywordsFile:
         wordArray = []
         for line in keywordsFile.readlines():
+            line = line.strip()
             wordArray.append(line)
             
         return wordArray
