@@ -1,6 +1,5 @@
 import scrapy
-from spider_utils import gen_keywords
-
+#from spider_utils import gen_keywords
 
 class ArchivesSpiderLachlainSpider(scrapy.Spider):
     name = 'archives_spider_lachlain'
@@ -10,17 +9,21 @@ class ArchivesSpiderLachlainSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        keywords = self.gen_keywords('keywords.txt')
+        #keywords = gen_keywords('keywords.txt')
+        keywords = ["Hamburg"]
         
         for keyword in keywords:
-
-            relevantContent = response.xpath("//*[contains(text(), 'MY TEXT')]").getall()
+            xpathStr = "//*[contains(text(), '"
+            xpathStr += keyword
+            xpathStr += "')]"
+            print("LOOK HERE")
+            print(xpathStr)
+            relevantContent = response.xpath(xpathStr).getall()
             for item in relevantContent:
                 yield{
-
                     "url" : self.current_url,
-                    "Keywords triggered" : item.extract()
-
+                    "Keywords triggered" : keyword,
+                    "Tag" : item
                 }
 
 
