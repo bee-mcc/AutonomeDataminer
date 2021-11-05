@@ -1,0 +1,6 @@
+- possibility of extracting php file directly and manipulating it to gain direct control of database
+    unlikely
+
+- approach: brute force search of all possible entries in database
+
+- what about just contacting the people?
