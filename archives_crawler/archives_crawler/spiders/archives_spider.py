@@ -1,13 +1,13 @@
 import scrapy
 from ..spider_utils import gen_keywords
 
-class ArchivesSpiderLachlainSpider(scrapy.Spider):
+class ArchivesSpider(scrapy.Spider):
     def __init__(self, name=None, **kwargs):
         self.start_urls = ['https://asb.nadir.org/tp1.php?urlpara=1000']
         self.start_urls.extend(['https://asb.nadir.org/tp1.php?urlpara=%d' % i for i in range(1001, 1000000)])
-        super(ArchivesSpiderLachlainSpider, self).__init__(name, **kwargs)
+        super(ArchivesSpider, self).__init__(name, **kwargs)
 
-    name = 'archives_spider_lachlain'
+    name = 'archives_spider'
     allowed_domains = ['asb.nadir.org']
     start_urls = ['https://asb.nadir.org/tp1.php?urlpara=1000']
     current_url = 'https://asb.nadir.org/tp1.php?urlpara=1000'
@@ -29,7 +29,7 @@ class ArchivesSpiderLachlainSpider(scrapy.Spider):
             #send each response off to the output file
             for item in relevantContent:
                 yield{
-                    "url" : self.current_url,
+                    "url" : response.request.url,
                     "Keywords triggered" : keyword,
                     "Tag" : item
                 }
