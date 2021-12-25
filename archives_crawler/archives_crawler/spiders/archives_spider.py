@@ -15,9 +15,13 @@ class ArchivesSpider(scrapy.Spider):
 
     def parse(self, response):
 
+
+
         keywords = gen_keywords('keywords.txt')
         
         for keyword in keywords:
+            relevantContent = []
+
             #build string
             xpathStr = "//*[contains(text(), '"
             xpathStr += keyword
@@ -25,11 +29,15 @@ class ArchivesSpider(scrapy.Spider):
 
             #take this page and grep all instances
             relevantContent = response.xpath(xpathStr).getall()
+            #if there is relevant content then get all the other info too
+            if(relevantContent):
+                title = response.xpath('//*[@id="content"]/h2[1]').get()
             
             #send each response off to the output file
             for item in relevantContent:
                 yield{
                     "url" : response.request.url,
+                    "Title of article" : title,
                     "Keywords triggered" : keyword,
                     "Tag" : item
                 }
