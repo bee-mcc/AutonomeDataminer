@@ -31,13 +31,16 @@ class ArchivesSpider(scrapy.Spider):
             relevantContent = response.xpath(xpathStr).getall()
             #if there is relevant content then get all the other info too
             if(relevantContent):
-                title = response.xpath('//*[@id="content"]/h2[1]').get()
+                title = response.xpath('//*[@id="content"]/h2[1]/text()').get()
+                subtitle = response.xpath('//*[@id="tp1"]/tr[1]/td[2]/span/text()').get()
             
+
             #send each response off to the output file
             for item in relevantContent:
                 yield{
                     "url" : response.request.url,
                     "Title of article" : title,
+                    "Subtitle" : subtitle,
                     "Keywords triggered" : keyword,
                     "Tag" : item
                 }
