@@ -42,9 +42,21 @@ class ArchivesSpider(scrapy.Spider):
                     "Title of article" : title,
                     "Subtitle" : subtitle,
                     "Keywords triggered" : keyword,
-                    "Tag" : item
+                    "Tag" : strCleanup(item)
                 }
 
-
-
-
+def strCleanup(string):
+    retVal = ""
+    inTag = False
+    for char in string:
+        if char == '<':
+            inTag = True
+            continue
+        elif char == '>':
+            inTag = False
+            continue
+        elif inTag:
+            continue
+        else:
+            retVal += char
+    return retVal
